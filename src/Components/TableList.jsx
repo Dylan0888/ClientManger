@@ -33,9 +33,18 @@ const TableList = () => {
                 <td className={`${client.isActive ? "text-green-500" : "text-red-500"} font-bold`}>
                     {client.isActive ? "Active" : "Inactive"}
                 </td>
+                <td>
+                    <button className="btn btn-active btn-secondary hover:bg-secondary/40 hover:border-secondary/0 hover:text-white">Edit</button>
+                </td>
+                <td>
+                    <button className="btn btn-active btn-error hover:bg-error/40 hover:border-error/0 hover:text-white">Delete</button>
+                </td>
             </tr>
           })}
             
+
+
+
         </tbody>
       </table>
     </div>
