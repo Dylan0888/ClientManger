@@ -1,6 +1,20 @@
-import React from "react";
+import modal from "daisyui/components/modal";
+import React, { useState } from "react";
 
 const ModalForm = ({ isOpen, onClose, mode, OnSubmit }) => {
+  const [modalData, setModalData] = useState({
+    name: "",
+    job: "",
+    email: "",
+    isActive: false,
+  });
+
+  const onChangeHandler = (e) => {
+    const { name, value } = e.target;
+    setModalData((prevData) => ({ ...prevData, [name]: value }));
+    console.log(name, value);
+  };
+
   return (
     <>
       <button
@@ -26,13 +40,27 @@ const ModalForm = ({ isOpen, onClose, mode, OnSubmit }) => {
               {/* Name */}
               <label className="input input-bordered flex items-center w-full">
                 Name
-                <input type="text" placeholder="Name" className="grow" />
+                <input
+                  type="text"
+                  placeholder="Name"
+                  className="grow"
+                  name="name"
+                  value={modalData.name}
+                  onChange={(e) => onChangeHandler(e)}
+                />
               </label>
 
               {/* Job */}
               <label className="input input-bordered flex items-center w-full">
                 Job
-                <input type="text" placeholder="Job" className="grow" />
+                <input
+                  type="text"
+                  placeholder="Job"
+                  className="grow"
+                  name="job"
+                  value={modalData.job}
+                  onChange={(e) => onChangeHandler(e)}
+                />
               </label>
 
               {/* Email */}
@@ -53,28 +81,34 @@ const ModalForm = ({ isOpen, onClose, mode, OnSubmit }) => {
                     <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
                   </g>
                 </svg>
-                <input type="email" placeholder="mail@site.com" required />
+                <input
+                  type="email"
+                  placeholder="mail@site.com"
+                  required
+                  name="email"
+                  value={modalData.email}
+                  onChange={(e) => onChangeHandler(e)}
+                />
               </label>
-              
 
               {/* isActive */}
               <select
                 defaultValue={"Set Status"}
                 className="select select-bordered w-full "
+                name="isActive"
+                onChange={(e) => onChangeHandler(e)}
               >
                 <option disabled={true}>Set Status</option>
-                <option>Active</option>
-                <option>Inactive</option>
+                <option value={true}>Active</option>
+                <option value={false}>Inactive</option>
               </select>
             </div>
 
-
             <div className="flex justify-center">
-               <button className="btn btn-success" onClick={onClose}>
+              <button className="btn btn-success" onClick={onClose}>
                 {mode === "edit" ? "Save Changes" : "Add Client"}
               </button>
             </div>
-             
           </form>
         </div>
       </dialog>
