@@ -1,4 +1,3 @@
-import modal from "daisyui/components/modal";
 import React, { useState } from "react";
 
 const ModalForm = ({ isOpen, onClose, mode, OnSubmit }) => {
@@ -6,13 +5,29 @@ const ModalForm = ({ isOpen, onClose, mode, OnSubmit }) => {
     name: "",
     job: "",
     email: "",
-    isActive: false,
+    isActive: "",
   });
+
+  const clearModalData = () => {
+    setModalData({
+      name: "",
+      job: "",
+      email: "",
+      isActive: "",
+    });
+  };
 
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
     setModalData((prevData) => ({ ...prevData, [name]: value }));
     console.log(name, value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // OnSubmit(modalData);
+    onClose();
+    clearModalData();
   };
 
   return (
@@ -28,7 +43,7 @@ const ModalForm = ({ isOpen, onClose, mode, OnSubmit }) => {
           <h3 className="font-bold text-lg py-3">
             {mode === "edit" ? "Edit Mode" : "Client Details"}
           </h3>
-          <form method="dialog">
+          <form method="dialog" onSubmit={handleSubmit}>
             <button
               className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
               onClick={onClose}
@@ -38,11 +53,12 @@ const ModalForm = ({ isOpen, onClose, mode, OnSubmit }) => {
 
             <div className="flex flex-col gap-4 py-4">
               {/* Name */}
-              <label className="input input-bordered flex items-center w-full">
+              <label className="input validator input-bordered flex items-center w-full ">
                 Name
                 <input
                   type="text"
                   placeholder="Name"
+                  required
                   className="grow"
                   name="name"
                   value={modalData.name}
@@ -51,11 +67,12 @@ const ModalForm = ({ isOpen, onClose, mode, OnSubmit }) => {
               </label>
 
               {/* Job */}
-              <label className="input input-bordered flex items-center w-full">
+              <label className="input validator input-bordered flex items-center w-full">
                 Job
                 <input
                   type="text"
                   placeholder="Job"
+                  required
                   className="grow"
                   name="job"
                   value={modalData.job}
@@ -93,19 +110,22 @@ const ModalForm = ({ isOpen, onClose, mode, OnSubmit }) => {
 
               {/* isActive */}
               <select
-                defaultValue={"Set Status"}
-                className="select select-bordered w-full "
+                className="select validator select-bordered w-full"
+                required
                 name="isActive"
-                onChange={(e) => onChangeHandler(e)}
+                value={modalData.isActive}
+                onChange={onChangeHandler}
               >
-                <option disabled={true}>Set Status</option>
-                <option value={true}>Active</option>
-                <option value={false}>Inactive</option>
+                <option value="" disabled>
+                  Set Status
+                </option>
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
               </select>
             </div>
 
             <div className="flex justify-center">
-              <button className="btn btn-success" onClick={onClose}>
+              <button className="btn btn-success" type="submit">
                 {mode === "edit" ? "Save Changes" : "Add Client"}
               </button>
             </div>
